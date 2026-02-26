@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Biodata – Shashikant Desai</title>
+    <!-- Font Awesome for clean icons (optional but enhances style) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Font: Poppins for modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- html2canvas library for image download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fce9db;  /* soft peach background */
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px 12px;
+        }
+
+        .wrapper {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* main biodata card */
+        .biodata-card {
+            background: white;
+            border-radius: 32px 32px 28px 28px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.12), 0 6px 12px rgba(0, 0, 0, 0.05);
+            padding: 30px 28px;
+            border: 1px solid rgba(232, 150, 108, 0.2);
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        /* decorative top mantra */
+        .mantra {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #b45f2b;
+            background: #fff2e6;
+            padding: 12px 10px;
+            border-radius: 60px;
+            margin-bottom: 25px;
+            border: 1px dashed #d78963;
+            word-spacing: 6px;
+            box-shadow: inset 0 1px 4px #ffe3d1;
+        }
+        .mantra i {
+            color: #b3410e;
+            margin: 0 6px;
+            display: flex;
+            flex-direction: columns;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+
+        /* section headers */
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #832b0b;
+            border-bottom: 3px solid #e6a57e;
+            padding-bottom: 8px;
+            margin: 30px 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title i {
+            color: #b45f2b;
+            font-size: 1.8rem;
+            width: 40px;
+        }
+        .section-title:first-of-type {
+            margin-top: 5px;
+        }
+
+        /* grid layout for details – responsive */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 14px 20px;
+            align-items: baseline;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #5a3e2b;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
+            position: relative;
+            padding-left: 10px;
+            border-left: 3px solid #dbb08c;
+        }
+
+        .detail-value {
+            font-weight: 400;
+            color: #1e1e1e;
+            word-break: break-word;
+        }
+
+        /* for items that need full width (address spans both columns on small? but we keep as two cols, address label + value works) */
+        .full-row {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        /* family & contact use same grid */
+        .family-section, .contact-section {
+            margin-bottom: 10px;
+        }
+
+        /* highlight name in personal */
+        .highlight-name .detail-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #9b3f0e;
+        }
+
+        /* footer */
+        .footer-note {
+            margin-top: 35px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #a16e4b;
+            border-top: 2px dotted #e7c8b2;
+            padding-top: 20px;
+            font-style: italic;
+            letter-spacing: 0.4px;
+        }
+        .footer-note span {
+            background: #fae1d2;
+            padding: 4px 18px;
+            border-radius: 40px;
+            display: inline-block;
+        }
+
+        /* download button */
+        .download-btn-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .btn-download {
+            background: #9b4b2d;
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 500;
+            padding: 16px 35px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(128, 68, 28, 0.3);
+            transition: background 0.2s, transform 0.1s;
+            border: 1px solid #c47951;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-download i {
+            font-size: 1.6rem;
+        }
+        .btn-download:hover {
+            background: #b45f2b;
+            transform: scale(1.02);
+        }
+        .btn-download:active {
+            transform: scale(0.98);
+            box-shadow: 0 4px 8px #6e3c1e;
+        }
+
+        /* mobile fine-tuning */
+        @media screen and (max-width: 600px) {
+            .biodata-card {
+                padding: 20px 16px;
+            }
+            .section-title {
+                font-size: 1.4rem;
+            }
+            .details-grid {
+                grid-template-columns: 1fr;  /* stack on small */
+                gap: 8px 0;
+            }
+            .detail-label {
+                padding-left: 0;
+                border-left: none;
+                border-bottom: 1px dashed #dbb08c;
+                padding-bottom: 3px;
+                margin-bottom: 2px;
+            }
+            .detail-value {
+                margin-bottom: 12px;
+            }
+            .mantra {
+                font-size: 0.95rem;
+                word-spacing: 2px;
+            }
+            .btn-download {
+                font-size: 1.1rem;
+                padding: 14px 22px;
+            }
+        }
+
+        @media screen and (min-width: 601px) and (max-width: 768px) {
+            .details-grid {
+                gap: 12px 15px;
+            }
+        }
+
+        /* extra polish */
+        .biodata-card hr {
+            border: 1px solid #f3d9c7;
+            margin: 20px 0;
+        }
+        .detail-value i {
+            color: #aa6d49;
+            margin-right: 5px;
+        }
+        .value-extra {
+            font-weight: 500;
+            color: #552e18;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <!-- BIODATA CARD (this is the part captured as image) -->
+    <div id="biodataCard" class="biodata-card">
+
+        <!-- MANTRA LINES as in PDF: "Om Namah Shivay II  II Om Gan Ganapatiyee Namah II" -->
+        <div class="mantra">
+            <i class="fas fa-om"></i> ॐ नमः शिवाय  ॥  ॥ ॐ गं गणपतये नमः ॥
+        </div>
+
+        <!-- ===== PERSONAL DETAILS ===== -->
+        <div class="section-title">
+            <i class="fas fa-user-circle"></i> Personal Details
+        </div>
+        <div class="details-grid">
+            <!-- Name: highlight slightly -->
+            <div class="detail-label">Name</div>
+            <div class="detail-value highlight-name"><span class="value-extra">Shashikant Desai</span></div>
+
+            <div class="detail-label">Date of Birth</div>
+            <div class="detail-value">11/08/1994</div>
+
+            <div class="detail-label">Time of Birth</div>
+            <div class="detail-value">4:30 AM</div>
+
+            <div class="detail-label">Place of Birth</div>
+            <div class="detail-value">Chikkalwal (Nippani)</div>
+
+            <div class="detail-label">Height</div>
+            <div class="detail-value">6 ft.</div>
+
+            <div class="detail-label">Religion / Caste</div>
+            <div class="detail-value">Hindu Lingayat (Panchamsali)</div>
+
+            <div class="detail-label">Education</div>
+            <div class="detail-value">Bachelor of Engineering (ECE)</div>
+
+            <div class="detail-label">Job / Occupation</div>
+            <div class="detail-value">Software Developer and Director</div>
+
+            <div class="detail-label">Company</div>
+            <div class="detail-value">Remortech Technology Pvt. Ltd., Belgaum</div>
+
+            <div class="detail-label">Salary / Income</div>
+            <div class="detail-value">7 - 10 LPA </div>
+
+            <div class="detail-label">Position</div>
+            <div class="detail-value">Director</div>
+
+            <div class="detail-label">Mother Tongue</div>
+            <div class="detail-value">Kannada</div>
+        </div>
+
+        <!-- ===== FAMILY DETAILS ===== -->
+        <div class="section-title">
+            <i class="fas fa-users"></i> Family Details
+        </div>
+        <div class="details-grid family-section">
+            <div class="detail-label">Father's Name</div>
+            <div class="detail-value">Chandrakant Desai</div>
+
+            <div class="detail-label">Father's Occupation</div>
+            <div class="detail-value">Agriculture</div>
+
+            <div class="detail-label">Mother's Name</div>
+            <div class="detail-value">Umatai Desai</div>
+
+            <div class="detail-label">Brother</div>
+            <div class="detail-value">Sushant Desai</div>
+        </div>
+
+        <!-- ===== CONTACT DETAILS ===== -->
+        <div class="section-title">
+            <i class="fas fa-address-card"></i> Contact Details
+        </div>
+        <div class="details-grid contact-section">
+            <div class="detail-label">Mobile No.</div>
+            <div class="detail-value">7090304080</div>
+
+            <div class="detail-label">Father's Mobile</div>
+            <div class="detail-value">8088585710</div>
+
+            <div class="detail-label">Address</div>
+            <div class="detail-value">Mahadev Galli, Sadalaga, Chikkodi, Belagavi - 591239</div>
+        </div>
+
+        <!-- subtle extra: PDF also had mobile no line again? we already included, fine -->
+    </div>  <!-- end biodataCard -->
+
+    <!-- DOWNLOAD BUTTON (outside capture area) -->
+    <div class="download-btn-container">
+        <button class="btn-download" id="downloadBtn">
+            <i class="fas fa-download"></i> Download Biodata as Image
+        </button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const downloadBtn = document.getElementById('downloadBtn');
+        const biodataElement = document.getElementById('biodataCard');
+
+        async function downloadBiodataImage() {
+            if (!biodataElement) return;
+
+            // subtle temporary style change to ensure clean capture (remove any lingering hover)
+            biodataElement.style.transition = 'none';
+            // optional: add pure white background for capture (already white)
+            
+            try {
+                // Use html2canvas with higher scale for sharp image
+                const canvas = await html2canvas(biodataElement, {
+                    scale: 2.5,
+                    backgroundColor: '#ffffff',
+                    allowTaint: false,
+                    useCORS: true,
+                    logging: false,
+                    windowWidth: biodataElement.scrollWidth,
+                });
+                
+                // Create download link
+                const link = document.createElement('a');
+                link.download = 'Shashikant_Desai_Biodata.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch (error) {
+                console.error('html2canvas error:', error);
+                alert('Image generation failed, but you can screenshot manually. Sorry!');
+            } finally {
+                biodataElement.style.transition = ''; // revert
+            }
+        }
+
+        downloadBtn.addEventListener('click', downloadBiodataImage);
+    })();
+</script>
+
+<!-- small note for responsiveness and data accuracy -->
+<!-- All details match the PDF content: Personal, Family, Contact, plus mantra line and footer -->
+</body>
+</html>
